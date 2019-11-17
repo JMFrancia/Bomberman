@@ -36,7 +36,8 @@ public class Bomberman : MonoBehaviour
 
     void CheckBombDrop() { 
         if(Input.GetKeyDown(KeyCode.Space)) {
-            Instantiate(bombPrefab, new Vector3(transform.position.x, 1.5f, transform.position.z), Quaternion.identity);
+            Vector3 pos = StageManager.instance.GetClosestGridCenter(transform.position);
+            Instantiate(bombPrefab, new Vector3(pos.x, 1.5f, pos.z), Quaternion.identity);
         }
     }
 
@@ -49,7 +50,7 @@ public class Bomberman : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         switch(other.tag) {
-            case "Burst":
+            case GlobalConstants.TagNames.BURST:
                 Debug.Log("OUCH!");
                 break;
         }

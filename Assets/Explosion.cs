@@ -6,7 +6,6 @@ public class Explosion : MonoBehaviour
 {
     [SerializeField] GameObject burstPrefab;
 
-    float gridUnit = 3.5f;
     bool initiated = false;
 
     Vector3[] dirs = new Vector3[4] { 
@@ -30,7 +29,7 @@ public class Explosion : MonoBehaviour
         for(int n = 0; n < spread; n++) {
             yield return new WaitForSeconds(speed);
             for(int k = 0; k < dirs.Length; k++) {
-                Vector3 pos = transform.position + dirs[k] * (n + 1) * gridUnit;
+                Vector3 pos = transform.position + dirs[k] * (n + 1) * StageManager.GRID_UNIT;
                 Instantiate(burstPrefab, pos, Quaternion.identity);
             }
         }
