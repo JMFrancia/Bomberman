@@ -6,6 +6,8 @@ public class Bomberman : MonoBehaviour
 {
     public float speed = 20f;
 
+    [SerializeField] GameObject bombPrefab;
+
     Rigidbody rb;
 
     private void Awake()
@@ -15,29 +17,41 @@ public class Bomberman : MonoBehaviour
 
     private void Update()
     {
-        CheckInput();
+        //CheckMovement();
+        CheckBombDrop();
     }
 
-    void CheckInput() {
+    void CheckMovement() {
         float zAxis = Input.GetAxis("Vertical");
         float xAxis = Input.GetAxis("Horizontal");
 
-
         Vector3 delta = new Vector3(xAxis, 0f, zAxis) * speed;
-
-        if(delta == Vector3.zero) {
-            rb.velocity = Vector3.zero;
+        rb.velocity = delta;
+        if(Mathf.Approximately(Vector3.Magnitude(delta), 0f)) {
             rb.angularVelocity = Vector3.zero;
         } else {
-            rb.AddForce(delta, ForceMode.VelocityChange);
+            transform.LookAt(transform.position + delta);
         }
-
-        rb.velocity = delta;
-        //rb.AddForce(delta, ForceMode.VelocityChange);
-
-        //transform.position += delta;
-
-        //if(delta == Vector3.zero)
     }
 
+    void CheckBombDrop() { 
+        if(Input.GetKeyDown(KeyCode.Space)) {
+            Instantiate(bombPrefab, new Vector3(transform.position.x, 1.5f, transform.position.z), Quaternion.identity);
+        }
+    }
+
+
+    private void FixedUpdate()
+    {
+        CheckMovement();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        switch(other.tag) {
+            case "Burst":
+                Debug.Log("OUCH!");
+                break;
+        }
+    }
 }
