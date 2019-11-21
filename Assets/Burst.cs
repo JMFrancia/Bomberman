@@ -15,6 +15,10 @@ public class Burst : MonoBehaviour
         collider = GetComponent<BoxCollider>();
     }
 
+    public void Init(Vector3 dir, int spread, float speed) { 
+        
+    }
+
     private void Update()
     {
         if(!shockwavePS.IsAlive()) {

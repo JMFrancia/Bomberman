@@ -24,15 +24,32 @@ public class Explosion : MonoBehaviour
     }
 
     IEnumerator Explode(int spread, float speed) {
+        bool[] activeDirections = new bool[] {
+            true,
+            true,
+            true,
+            true
+        };
+
         Instantiate(burstPrefab, transform.position, Quaternion.identity);
 
-        for(int n = 0; n < spread; n++) {
+        for (int n = 0; n < spread; n++) {
             yield return new WaitForSeconds(speed);
             for(int k = 0; k < dirs.Length; k++) {
+                if (!activeDirections[k])
+                    continue;
                 Vector3 pos = transform.position + dirs[k] * (n + 1) * StageManager.GRID_UNIT;
-                Instantiate(burstPrefab, pos, Quaternion.identity);
+                if (Physics.CheckSphere(pos, .5f, LayerMask.GetMask("Wall")))
+                {
+                    activeDirections[k] = false;
+                }
+                else
+                {
+                    Instantiate(burstPrefab, pos, Quaternion.identity);
+                }
             }
         }
+
         Destroy(gameObject);
     }
 }

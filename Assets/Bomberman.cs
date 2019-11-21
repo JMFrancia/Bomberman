@@ -10,6 +10,9 @@ public class Bomberman : MonoBehaviour
 
     Rigidbody rb;
 
+    GameObject activeBomb;
+    float bombDist = -1f;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -17,7 +20,6 @@ public class Bomberman : MonoBehaviour
 
     private void Update()
     {
-        //CheckMovement();
         CheckBombDrop();
     }
 
@@ -31,13 +33,24 @@ public class Bomberman : MonoBehaviour
             rb.angularVelocity = Vector3.zero;
         } else {
             transform.LookAt(transform.position + delta);
+            CheckActiveBombs();
+        }
+    }
+
+    void CheckActiveBombs() { 
+        if(activeBomb != null && Vector3.Distance(activeBomb.transform.position, transform.position) > 3f) { 
+            activeBomb.layer = LayerMask.NameToLayer("Default");
+            activeBomb = null;
         }
     }
 
     void CheckBombDrop() { 
         if(Input.GetKeyDown(KeyCode.Space)) {
             Vector3 pos = StageManager.instance.GetClosestGridCenter(transform.position);
-            Instantiate(bombPrefab, new Vector3(pos.x, 1.5f, pos.z), Quaternion.identity);
+            activeBomb = Instantiate(bombPrefab, new Vector3(pos.x, 1.5f, pos.z), Quaternion.identity);
+            if(bombDist < 0f) {
+                bombDist = activeBomb.GetComponent<Collider>().bounds.size.magnitude / 2;
+            }
         }
     }
 

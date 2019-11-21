@@ -12,6 +12,10 @@ public class StageManager : MonoBehaviour
 
     private void Awake()
     {
+        if(instance != null) {
+            Destroy(gameObject);
+        }
+
         instance = this;
 
         Bounds b = transform.GetChild(0).GetComponent<Renderer>().bounds;
@@ -20,23 +24,19 @@ public class StageManager : MonoBehaviour
     }
 
     public Vector3 GetClosestGridCenter(Vector3 input) {
-        //Debug.Log(input + " --> " + new Vector3(RoundToGridUnit(input.x) + GRID_UNIT / 2, 0f, RoundToGridUnit(input.z) + GRID_UNIT / 2));
-        return instance.transform.position - new Vector3(width / 2, 0f, length / 2) + new Vector3(RoundToGridUnit(input.x) + GRID_UNIT / 2, input.y, RoundToGridUnit(input.z) + GRID_UNIT / 2);
+        return new Vector3(RoundToGridUnit(input.x), input.y, RoundToGridUnit(input.z));
     }
 
-    static float RoundToGridUnit(float input)
-    {
-        return Mathf.Round(input / GRID_UNIT) * GRID_UNIT;
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        for (int x = 0; x < 15; x++) { 
-            for(int z = 0; z < 11; z++) {
-                Vector3 pos = GetClosestGridCenter(new Vector3(x * GRID_UNIT, GRID_UNIT / 2, z * GRID_UNIT));
-                Gizmos.DrawSphere(pos, GRID_UNIT / 2);
-            }
+    float RoundToFloat(float input, float target) {
+        float quotient = input / target;
+        if(quotient - Mathf.Floor(quotient) < .5) {
+            return Mathf.Floor(quotient) * target;
+        } else {
+            return Mathf.Ceil(quotient) * target;
         }
+    }
+
+    float RoundToGridUnit(float input) {
+        return RoundToFloat(input, GRID_UNIT);
     }
 }
