@@ -45,3 +45,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   burstPrefab: {fileID: 5438002302913318771, guid: 39b42af7b10384da588d95a17b685c63,
     type: 3}
+  pickupPrefab: {fileID: 3041815640467006660, guid: 4111346e770dc4fa386c96b99140a1dd,
+    type: 3}

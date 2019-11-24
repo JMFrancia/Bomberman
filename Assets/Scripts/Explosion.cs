@@ -5,6 +5,7 @@ using UnityEngine;
 public class Explosion : MonoBehaviour
 {
     [SerializeField] GameObject burstPrefab;
+    [SerializeField] GameObject pickupPrefab;
 
     bool initiated = false;
 
@@ -46,6 +47,7 @@ public class Explosion : MonoBehaviour
                 else if (Physics.CheckSphere(pos, .5f, LayerMask.GetMask("DestructibleWall"))) {
                     activeDirections[k] = false;
                     Physics.OverlapSphere(pos, .5f, LayerMask.GetMask("DestructibleWall"))[0].GetComponent<DestroyIt.Destructible>().currentHitPoints = 0;
+                    GeneratePickup(pos);
                 }
                 else
                 {
@@ -55,5 +57,25 @@ public class Explosion : MonoBehaviour
         }
 
         Destroy(gameObject);
+    }
+
+    void GeneratePickup(Vector3 pos) {
+        if(Random.value < .5f) {
+            return;
+        }
+
+        Pickup pickup = Instantiate(pickupPrefab, pos, Quaternion.identity).GetComponent<Pickup>();
+        switch(Random.Range(0, 3)) {
+            case 0:
+                pickup.Type = Pickup.PickupType.BOMB;
+                break;
+            case 1:
+                pickup.Type = Pickup.PickupType.POWER;
+                break;
+            case 2:
+                pickup.Type = Pickup.PickupType.SPEED;
+                break;
+        }
+
     }
 }
