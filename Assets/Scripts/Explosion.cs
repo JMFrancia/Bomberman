@@ -39,7 +39,6 @@ public class Explosion : MonoBehaviour
                 if (!activeDirections[k])
                     continue;
                 Vector3 pos = transform.position + dirs[k] * (n + 1) * StageManager.GRID_UNIT;
-                RaycastHit hitInfo;
                 if (Physics.CheckSphere(pos, .5f, LayerMask.GetMask("Wall")))
                 {
                     activeDirections[k] = false;

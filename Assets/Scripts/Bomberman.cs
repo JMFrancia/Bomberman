@@ -66,6 +66,26 @@ public class Bomberman : MonoBehaviour
             case GlobalConstants.TagNames.BURST:
                 Debug.Log("OUCH!");
                 break;
+            case GlobalConstants.TagNames.PICKUP:
+                CollectPickup(other.GetComponent<Pickup>().Type);
+                Destroy(other.gameObject);
+                break;
+            default:
+                break;
+        }
+    }
+
+    void CollectPickup(Pickup.PickupType type) { 
+        switch(type) {
+            case Pickup.PickupType.BOMB:
+                Debug.Log("Got a bomb");
+                break;
+            case Pickup.PickupType.POWER:
+                Debug.Log("Got power");
+                break;
+            case Pickup.PickupType.SPEED:
+                Debug.Log("Got speed");
+                break;
         }
     }
 }

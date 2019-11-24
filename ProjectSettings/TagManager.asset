@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Burst
   - ClingPoint
+  - Pickup
   layers:
   - Default
   - TransparentFX
