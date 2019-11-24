@@ -4,18 +4,25 @@ using UnityEngine;
 
 public class Bomberman : MonoBehaviour
 {
-    public float speed = 20f;
+    [SerializeField] int bombCapacity = 1;
+    [SerializeField] int power = 1;
+    [SerializeField] float speed = 10f;
+
+    [SerializeField] float speedPickupIncrease = 5f;
 
     [SerializeField] GameObject bombPrefab;
 
     Rigidbody rb;
 
-    GameObject activeBomb;
+    HashSet<int> activeBombIDs = new HashSet<int>();
+
+    GameObject lastBomb;
     float bombDist = -1f;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        EventManager.StartListening(EventName.BOMB_EXPLODED, OnBombExploded);
     }
 
     private void Update()
@@ -38,22 +45,26 @@ public class Bomberman : MonoBehaviour
     }
 
     void CheckActiveBombs() { 
-        if(activeBomb != null && Vector3.Distance(activeBomb.transform.position, transform.position) > 3f) { 
-            activeBomb.layer = LayerMask.NameToLayer("Default");
-            activeBomb = null;
+        if(lastBomb != null && Vector3.Distance(lastBomb.transform.position, transform.position) > 3f) { 
+            lastBomb.layer = LayerMask.NameToLayer("Default");
+            lastBomb = null;
         }
     }
 
     void CheckBombDrop() { 
         if(Input.GetKeyDown(KeyCode.Space)) {
+            if (activeBombIDs.Count >= bombCapacity)
+                return;
+
             Vector3 pos = StageManager.instance.GetClosestGridCenter(transform.position);
-            activeBomb = Instantiate(bombPrefab, new Vector3(pos.x, 1.5f, pos.z), Quaternion.identity);
+            lastBomb = Instantiate(bombPrefab, new Vector3(pos.x, 1.5f, pos.z), Quaternion.identity);
+            lastBomb.GetComponent<Bomb>().explosionSpread = power;
             if(bombDist < 0f) {
-                bombDist = activeBomb.GetComponent<Collider>().bounds.size.magnitude / 2;
+                bombDist = lastBomb.GetComponent<Collider>().bounds.size.magnitude / 2;
             }
+            activeBombIDs.Add(lastBomb.GetInstanceID());
         }
     }
-
 
     private void FixedUpdate()
     {
@@ -79,13 +90,22 @@ public class Bomberman : MonoBehaviour
         switch(type) {
             case Pickup.PickupType.BOMB:
                 Debug.Log("Got a bomb");
+                bombCapacity++;
                 break;
             case Pickup.PickupType.POWER:
                 Debug.Log("Got power");
+                power++;
                 break;
             case Pickup.PickupType.SPEED:
                 Debug.Log("Got speed");
+                speed += speedPickupIncrease;
                 break;
+        }
+    }
+
+    void OnBombExploded(int bombID) { 
+        if(activeBombIDs.Contains(bombID)) {
+            activeBombIDs.Remove(bombID);
         }
     }
 }

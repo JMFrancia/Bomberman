@@ -1,36 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &2425573303803671881
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1177422420988130386}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81a1bfaea89344e3d8ed448230e87dcc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  explosionPrefab: {fileID: 9154308662533192123, guid: d8e8fe99837ee487fb77d7c4b40ae2a0,
-    type: 3}
-  fuseTime: 2
-  explosionSpread: 5
-  explosionSpreadSpeed: 0.1
-  explosionStartAdjustment: {x: 0, y: -1, z: 0}
---- !u!135 &3163877744801587571
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1177422420988130386}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 1.4342989
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &4888238492304401317
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -47,6 +16,37 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!135 &3163877744801587571
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1177422420988130386}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.4342989
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2425573303803671881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1177422420988130386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81a1bfaea89344e3d8ed448230e87dcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  explosionPrefab: {fileID: 9154308662533192123, guid: d8e8fe99837ee487fb77d7c4b40ae2a0,
+    type: 3}
+  fuseTime: 2
+  explosionSpread: 1
+  explosionSpreadSpeed: 0.1
+  explosionStartAdjustment: {x: 0, y: -1, z: 0}
 --- !u!1001 &1177422420988031730
 PrefabInstance:
   m_ObjectHideFlags: 0

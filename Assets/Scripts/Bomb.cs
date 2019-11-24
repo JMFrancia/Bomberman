@@ -7,7 +7,7 @@ public class Bomb : MonoBehaviour
     [SerializeField] GameObject explosionPrefab;
 
     [SerializeField] float fuseTime = 2f;
-    [SerializeField] int explosionSpread = 1;
+    public int explosionSpread = 1;
     [SerializeField] float explosionSpreadSpeed = .2f;
     [SerializeField] Vector3 explosionStartAdjustment = new Vector3(0f, -1f, 0f);
 
@@ -27,6 +27,7 @@ public class Bomb : MonoBehaviour
     {
         GameObject exp = Instantiate(explosionPrefab, transform.position + explosionStartAdjustment, Quaternion.identity);
         exp.GetComponent<Explosion>().Init(explosionSpread, explosionSpreadSpeed);
+        EventManager.TriggerEvent(EventName.BOMB_EXPLODED, gameObject.GetInstanceID());
         Destroy(gameObject);
     }
 
