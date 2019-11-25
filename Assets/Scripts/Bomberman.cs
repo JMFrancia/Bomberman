@@ -8,13 +8,14 @@ public class Bomberman : MonoBehaviour
     [SerializeField] int power = 1;
     [SerializeField] float speed = 10f;
 
-    [SerializeField] float speedPickupIncrease = 5f;
+    [SerializeField] float speedPickupIncrease = 1f;
+    [SerializeField] float maxSpeed = 20f;
 
     [SerializeField] GameObject bombPrefab;
 
     Rigidbody rb;
 
-    HashSet<int> activeBombIDs = new HashSet<int>();
+    static HashSet<int> activeBombIDs = new HashSet<int>();
 
     GameObject lastBomb;
     float bombDist = -1f;
@@ -75,7 +76,7 @@ public class Bomberman : MonoBehaviour
     {
         switch(other.tag) {
             case GlobalConstants.TagNames.BURST:
-                Debug.Log("OUCH!");
+                Die();
                 break;
             case GlobalConstants.TagNames.PICKUP:
                 CollectPickup(other.GetComponent<Pickup>().Type);
@@ -84,6 +85,12 @@ public class Bomberman : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    void Die() {
+        Debug.Log("OUCH!");
+        EventManager.TriggerEvent(EventName.PLAYER_DIED, gameObject.GetInstanceID());
+        Destroy(gameObject);
     }
 
     void CollectPickup(Pickup.PickupType type) { 

@@ -1745,7 +1745,7 @@ GameObject:
   - component: {fileID: 3135063165378169247}
   m_Layer: 9
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Bomberman
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1840,7 +1840,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cb7832e9e35b4084971b13020c5e61a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bombCapacity: 1
+  power: 1
   speed: 15
+  speedPickupIncrease: 1
+  maxSpeed: 20
   bombPrefab: {fileID: 1177422420988130386, guid: d2a34a51780d24365be22b1f20c7655f,
     type: 3}
 --- !u!1 &3135063166377657617
