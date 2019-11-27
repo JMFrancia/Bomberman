@@ -8,6 +8,7 @@ public class Burst : MonoBehaviour
 
     ParticleSystem ps;
     BoxCollider bCollider;
+    AudioSource aSource;
 
     private void Awake()
     {
@@ -22,7 +23,7 @@ public class Burst : MonoBehaviour
         }
             
         if (!ps.IsAlive()) {
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
     }
 }

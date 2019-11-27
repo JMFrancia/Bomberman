@@ -22,17 +22,22 @@ public class Bomberman : MonoBehaviour
 
     [SerializeField] GameObject bombPrefab;
 
-    Rigidbody rb;
+    [SerializeField] AudioClip bombDropSFX;
+    AudioClip pickupSFX;
+
+    AudioSource audioSource;
 
     static HashSet<int> activeBombIDs = new HashSet<int>();
-
+    Rigidbody rb;
     GameObject lastBomb;
     float bombDist = -1f;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        audioSource = GetComponent<AudioSource>();
         EventManager.StartListening(EventName.BOMB_EXPLODED, OnBombExploded);
+        pickupSFX = Resources.Load<AudioClip>("SFX/Pickup SFX");
     }
 
     private void Update()
@@ -67,6 +72,7 @@ public class Bomberman : MonoBehaviour
             if (activeBombIDs.Count >= bombCapacity)
                 return;
 
+            audioSource.PlayOneShot(bombDropSFX);
             Vector3 pos = StageManager.instance.GetClosestGridCenter(transform.position);
             lastBomb = Instantiate(bombPrefab, new Vector3(pos.x, 1.5f, pos.z), Quaternion.identity);
             lastBomb.GetComponent<Bomb>().explosionSpread = power;
@@ -89,6 +95,7 @@ public class Bomberman : MonoBehaviour
                 Die();
                 break;
             case GlobalConstants.TagNames.PICKUP:
+                audioSource.PlayOneShot(pickupSFX);
                 CollectPickup(other.GetComponent<Pickup>().Type);
                 Destroy(other.gameObject);
                 break;

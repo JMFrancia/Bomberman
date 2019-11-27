@@ -12,11 +12,17 @@ public class GameManager : MonoBehaviour
     HashSet<string> playerNames;
     bool gameOver = false;
 
+    //TODO: Move Death SFX to bomberman somehow
+    AudioSource audioSource;
+    AudioClip deathSFX;
+
     private void Awake()
     {
+        audioSource = GetComponent<AudioSource>();
         playerNames = new HashSet<string>(GameObject.FindGameObjectsWithTag(GlobalConstants.TagNames.BOMBERMAN).Select(go => go.name));
         EventManager.StartListening(EventName.PLAYER_DIED, OnPlayerDeath);
         EventManager.StartListening(EventName.TIME_UP, GameOver);
+        deathSFX = Resources.Load<AudioClip>("SFX/Death SFX");
     }
 
     private void Update()
@@ -29,6 +35,7 @@ public class GameManager : MonoBehaviour
     }
 
     void OnPlayerDeath(string playerName) {
+        audioSource.PlayOneShot(deathSFX);
         playerNames.Remove(playerName);
         if(playerNames.Count == 1) {
             GameOver();   
