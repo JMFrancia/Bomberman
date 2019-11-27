@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     {
         playerNames = new HashSet<string>(GameObject.FindGameObjectsWithTag(GlobalConstants.TagNames.BOMBERMAN).Select(go => go.name));
         EventManager.StartListening(EventName.PLAYER_DIED, OnPlayerDeath);
+        EventManager.StartListening(EventName.TIME_UP, GameOver);
     }
 
     private void Update()
@@ -36,7 +37,13 @@ public class GameManager : MonoBehaviour
 
     void GameOver() {
         gameOverText.gameObject.SetActive(true);
-        gameOverText.text = string.Format("{0} wins!", playerNames.ToArray()[0]);
+        if (playerNames.Count == 1)
+        {
+            gameOverText.text = string.Format("{0} wins!", playerNames.ToArray()[0]);
+        }
+        else {
+            gameOverText.text = "Draw!";
+        }
         gameOver = true;
     }
 

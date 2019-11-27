@@ -18,7 +18,7 @@ public class Bomberman : MonoBehaviour
 
     [SerializeField] float speedPickupIncrease = 1f;
     [SerializeField] float maxSpeed = 20f;
-    [SerializeField] int maxPower;
+    [SerializeField] int maxPower = 8;
 
     [SerializeField] GameObject bombPrefab;
 
@@ -106,15 +106,12 @@ public class Bomberman : MonoBehaviour
     void CollectPickup(Pickup.PickupType type) { 
         switch(type) {
             case Pickup.PickupType.BOMB:
-                Debug.Log("Got a bomb");
                 bombCapacity++;
                 break;
             case Pickup.PickupType.POWER:
-                Debug.Log("Got power");
                 power = Mathf.Min(power + 1, maxPower);
                 break;
             case Pickup.PickupType.SPEED:
-                Debug.Log("Got speed");
                 speed = Mathf.Min(speed + speedPickupIncrease, maxSpeed);
                 break;
         }
