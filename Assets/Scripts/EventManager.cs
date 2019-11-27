@@ -6,17 +6,19 @@ using System.Collections.Generic;
 public class EventManager {
 	class UnityEventFloat : UnityEvent<float> {}
 	class UnityEventBool : UnityEvent<bool> {}
-	class UnityEventInt : UnityEvent<int> {}
-	class UnityEventVector3 : UnityEvent<Vector3> {}
-	class UnityEventCamera : UnityEvent<Camera> {}
+	class UnityEventInt : UnityEvent<int> { }
+    class UnityEventString : UnityEvent<string> { }
+    class UnityEventVector3 : UnityEvent<Vector3> {}
+	class UnityEventCamera : UnityEvent<Camera> { }
 
-	public static EventManager Instance = new EventManager ();
+    public static EventManager Instance = new EventManager ();
 
 	private Dictionary <string, UnityEvent> eventDictionary = new Dictionary<string, UnityEvent>();
 	private Dictionary <string, UnityEventFloat> eventDictionaryFloat = new Dictionary<string, UnityEventFloat> ();
 	private Dictionary <string, UnityEventBool> eventDictionaryBool = new Dictionary<string, UnityEventBool> ();
 	private Dictionary <string, UnityEventInt> eventDictionaryInt = new Dictionary<string, UnityEventInt>();
-	private Dictionary <string, UnityEventVector3> eventDictionaryVector3 = new Dictionary<string, UnityEventVector3> ();
+    private Dictionary <string, UnityEventString> eventDictionaryString = new Dictionary<string, UnityEventString>();
+    private Dictionary <string, UnityEventVector3> eventDictionaryVector3 = new Dictionary<string, UnityEventVector3> ();
 	private Dictionary <string, UnityEventCamera> eventDictionaryCamera = new Dictionary<string, UnityEventCamera> ();
 	
 	#region StartListening
@@ -81,7 +83,22 @@ public class EventManager {
 		}
 	}
 
-	public static void StartListening (string eventName, UnityAction<Vector3> listener)
+    public static void StartListening(string eventName, UnityAction<string> listener)
+    {
+        UnityEventString thisEvent = null;
+        if (Instance.eventDictionaryString.TryGetValue(eventName, out thisEvent))
+        {
+            thisEvent.AddListener(listener);
+        }
+        else
+        {
+            thisEvent = new UnityEventString();
+            thisEvent.AddListener(listener);
+            Instance.eventDictionaryString.Add(eventName, thisEvent);
+        }
+    }
+
+    public static void StartListening (string eventName, UnityAction<Vector3> listener)
 	{
 		UnityEventVector3 thisEvent = null;
 		if (Instance.eventDictionaryVector3.TryGetValue(eventName, out thisEvent))
@@ -166,7 +183,20 @@ public class EventManager {
 		}
 	}
 
-	public static void StopListening (string eventName, UnityAction<Vector3> listener)
+    public static void StopListening(string eventName, UnityAction<string> listener)
+    {
+        if (Instance == null)
+        {
+            return;
+        }
+        UnityEventString thisEvent = null;
+        if (Instance.eventDictionaryString.TryGetValue(eventName, out thisEvent))
+        {
+            thisEvent.RemoveListener(listener);
+        }
+    }
+
+    public static void StopListening (string eventName, UnityAction<Vector3> listener)
 	{
 		if (Instance == null)
 		{
@@ -231,8 +261,16 @@ public class EventManager {
 		}
 	}
 
+    public static void TriggerEvent(string eventName, string param)
+    {
+        UnityEventString thisEvent = null;
+        if (Instance != null && Instance.eventDictionaryString.TryGetValue(eventName, out thisEvent))
+        {
+            thisEvent.Invoke(param);
+        }
+    }
 
-	public static void TriggerEvent (string eventName, Vector2 param)
+    public static void TriggerEvent (string eventName, Vector2 param)
 	{
 		UnityEventVector3 thisEvent = null;
 		if (Instance != null && Instance.eventDictionaryVector3.TryGetValue(eventName, out thisEvent))

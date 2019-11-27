@@ -7,14 +7,14 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI restartText;
+    [SerializeField] TextMeshProUGUI gameOverText;
 
-    HashSet<int> playerIDs;
+    HashSet<string> playerNames;
     bool gameOver = false;
 
     private void Awake()
     {
-        playerIDs = new HashSet<int>(GameObject.FindGameObjectsWithTag(GlobalConstants.TagNames.BOMBERMAN).Select(go => go.GetInstanceID()));
+        playerNames = new HashSet<string>(GameObject.FindGameObjectsWithTag(GlobalConstants.TagNames.BOMBERMAN).Select(go => go.name));
         EventManager.StartListening(EventName.PLAYER_DIED, OnPlayerDeath);
     }
 
@@ -27,15 +27,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void OnPlayerDeath(int playerID) {
-        playerIDs.Remove(playerID);
-        if(playerIDs.Count == 0) {
+    void OnPlayerDeath(string playerName) {
+        playerNames.Remove(playerName);
+        if(playerNames.Count == 1) {
             GameOver();   
         }
     }
 
     void GameOver() {
-        restartText.gameObject.SetActive(true);
+        gameOverText.gameObject.SetActive(true);
+        gameOverText.text = string.Format("{0} wins!", playerNames.ToArray()[0]);
         gameOver = true;
     }
 

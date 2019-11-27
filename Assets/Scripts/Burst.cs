@@ -7,18 +7,18 @@ public class Burst : MonoBehaviour
     [SerializeField] ParticleSystem shockwavePS;
 
     ParticleSystem ps;
-    BoxCollider collider;
+    BoxCollider bCollider;
 
     private void Awake()
     {
         ps = GetComponent<ParticleSystem>();
-        collider = GetComponent<BoxCollider>();
+        bCollider = GetComponent<BoxCollider>();
     }
 
     private void Update()
     {
-        if(!shockwavePS.IsAlive()) {
-            collider.enabled = false;
+        if(ps.particleCount == 0) {
+            bCollider.enabled = false;
         }
             
         if (!ps.IsAlive()) {

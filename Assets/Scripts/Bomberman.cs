@@ -1,15 +1,24 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Bomberman : MonoBehaviour
 {
+    [Serializable]
+    public enum PlayerInput { 
+        PLAYER1,
+        PLAYER2
+    }
+
+    [SerializeField] PlayerInput inputSource;
     [SerializeField] int bombCapacity = 1;
     [SerializeField] int power = 1;
     [SerializeField] float speed = 10f;
 
     [SerializeField] float speedPickupIncrease = 1f;
     [SerializeField] float maxSpeed = 20f;
+    [SerializeField] int maxPower;
 
     [SerializeField] GameObject bombPrefab;
 
@@ -32,8 +41,9 @@ public class Bomberman : MonoBehaviour
     }
 
     void CheckMovement() {
-        float zAxis = Input.GetAxis("Vertical");
-        float xAxis = Input.GetAxis("Horizontal");
+
+        float zAxis = Input.GetAxis(inputSource == PlayerInput.PLAYER1 ? GlobalConstants.InputAxisNames.P1_VERTICAL : GlobalConstants.InputAxisNames.P2_VERTICAL);
+        float xAxis = Input.GetAxis(inputSource == PlayerInput.PLAYER1 ? GlobalConstants.InputAxisNames.P1_HORIZONTAL : GlobalConstants.InputAxisNames.P2_HORIZONTAL);
 
         Vector3 delta = new Vector3(xAxis, 0f, zAxis) * speed;
         rb.velocity = delta;
@@ -53,7 +63,7 @@ public class Bomberman : MonoBehaviour
     }
 
     void CheckBombDrop() { 
-        if(Input.GetKeyDown(KeyCode.Space)) {
+        if(Input.GetKeyDown(inputSource == PlayerInput.PLAYER1 ? KeyCode.RightShift : KeyCode.Space)) {
             if (activeBombIDs.Count >= bombCapacity)
                 return;
 
@@ -89,7 +99,7 @@ public class Bomberman : MonoBehaviour
 
     void Die() {
         Debug.Log("OUCH!");
-        EventManager.TriggerEvent(EventName.PLAYER_DIED, gameObject.GetInstanceID());
+        EventManager.TriggerEvent(EventName.PLAYER_DIED, gameObject.name);
         Destroy(gameObject);
     }
 
@@ -101,11 +111,11 @@ public class Bomberman : MonoBehaviour
                 break;
             case Pickup.PickupType.POWER:
                 Debug.Log("Got power");
-                power++;
+                power = Mathf.Min(power + 1, maxPower);
                 break;
             case Pickup.PickupType.SPEED:
                 Debug.Log("Got speed");
-                speed += speedPickupIncrease;
+                speed = Mathf.Min(speed + speedPickupIncrease, maxSpeed);
                 break;
         }
     }
