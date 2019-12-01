@@ -234,10 +234,10 @@ namespace DestroyIt
             for (int i = 0; i < prefabsToPool.Count; i++)
             {
                 if (prefabsToPool[i].Prefab == null) continue;
-                if (prefabsToPool[i].Prefab.name != obj.name) continue;
+                if (prefabsToPool[i].Prefab.name != obj.name && prefabsToPool[i].Prefab.name + "(Clone)" != obj.name) continue;
 
                 // Object was found. Deactivate it, stop/clear particle effects, and put it in the pool.
-                obj.transform.parent = container.transform;
+                    obj.transform.parent = container.transform;
                 ParticleSystem[] particleSystems = obj.GetComponentsInChildren<ParticleSystem>();
                 for (int j = 0; j < particleSystems.Length; j++) 
                 {

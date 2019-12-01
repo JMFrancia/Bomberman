@@ -13,7 +13,7 @@ public class Bomb : MonoBehaviour
 
     Coroutine fuseRoutine;
 
-    private void Start()
+    private void OnEnable()
     {
         fuseRoutine = StartCoroutine(Set(fuseTime));
     }
@@ -28,7 +28,7 @@ public class Bomb : MonoBehaviour
         GameObject exp = Instantiate(explosionPrefab, transform.position + explosionStartAdjustment, Quaternion.identity);
         exp.GetComponent<Explosion>().Init(explosionSpread, explosionSpreadSpeed);
         EventManager.TriggerEvent(EventName.BOMB_EXPLODED, gameObject.GetInstanceID());
-        Destroy(gameObject);
+        DestroyIt.ObjectPool.Instance.PoolObject(gameObject);
     }
 
     private void OnTriggerEnter(Collider other)

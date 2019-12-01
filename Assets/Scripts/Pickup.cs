@@ -49,4 +49,11 @@ public class Pickup : MonoBehaviour
     {
         SetType(type);
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == GlobalConstants.TagNames.BURST) {
+            Destroy(gameObject);
+        }
+    }
 } 

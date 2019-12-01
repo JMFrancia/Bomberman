@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 7843176672116133339}
   - component: {fileID: 7811760666849116055}
   - component: {fileID: 1654344789}
-  - component: {fileID: 1852968491122993}
   m_Layer: 12
   m_Name: Breakable Wall
   m_TagString: Untagged
@@ -163,15 +162,3 @@ MonoBehaviour:
   sinkWhenDestroyed: 0
   shouldDeactivate: 0
   isTerrainTree: 0
---- !u!114 &1852968491122993
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7821909027784806603}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7a5dc09804d747d5a3daebc2f536169, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

@@ -32,7 +32,7 @@ public class Explosion : MonoBehaviour
             true
         };
 
-        Instantiate(burstPrefab, transform.position, Quaternion.identity);
+        DestroyIt.ObjectPool.Instance.Spawn(burstPrefab, transform.position, Quaternion.identity);
 
         for (int n = 0; n < spread; n++) {
             yield return new WaitForSeconds(speed);
@@ -51,7 +51,7 @@ public class Explosion : MonoBehaviour
                 }
                 else
                 {
-                    Instantiate(burstPrefab, pos, Quaternion.identity);
+                    DestroyIt.ObjectPool.Instance.Spawn(burstPrefab, pos, Quaternion.identity);
                 }
             }
         }
