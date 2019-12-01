@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 7819568618900509883}
   - component: {fileID: 7853554029795902803}
   - component: {fileID: 7843176672116133339}
-  - component: {fileID: 7811760666849116055}
   - component: {fileID: 1654344789}
+  - component: {fileID: 7009668148901634315}
   m_Layer: 12
   m_Name: Breakable Wall
   m_TagString: Untagged
@@ -79,20 +79,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &7811760666849116055
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7821909027784806603}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_Mesh: {fileID: 4300000, guid: 2d56fe2ad841a4f429c64626c08eaae5, type: 3}
 --- !u!114 &1654344789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162,3 +148,16 @@ MonoBehaviour:
   sinkWhenDestroyed: 0
   shouldDeactivate: 0
   isTerrainTree: 0
+--- !u!65 &7009668148901634315
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7821909027784806603}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.98185754, y: 1.0106556, z: 0.9990036}
+  m_Center: {x: -0.00000025331974, y: 0.00000008940697, z: 0}
