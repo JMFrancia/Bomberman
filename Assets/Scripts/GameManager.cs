@@ -52,6 +52,7 @@ public class GameManager : MonoBehaviour
             gameOverText.text = "Draw!";
         }
         gameOver = true;
+        EventManager.TriggerEvent(EventName.GAME_OVER);
     }
 
     void Restart() {

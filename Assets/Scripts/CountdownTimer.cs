@@ -11,6 +11,15 @@ public class CountdownTimer : MonoBehaviour
     float timeLeft;
     TextMeshProUGUI tm;
 
+    private void OnEnable()
+    {
+        EventManager.StartListening(EventName.GAME_OVER, OnGameOver);
+    }
+
+    void OnGameOver() {
+        gameObject.SetActive(false);
+    }
+        
     private void Awake()
     {
         tm = GetComponent<TextMeshProUGUI>();
